@@ -1,0 +1,37 @@
+function setup() {
+	  createCanvas(300, 300);
+}
+
+function draw() {
+    var randomColor;
+    var w = width;
+    var h = height;
+    background(240);
+    rect(100, 100, 50, 40, 15);
+    stroke(10);
+    strokeWeight(1);
+
+    ellipse(140, 40, 50, 65);
+
+    arc(240, 90, 100, 50, 0, PI, PIE);
+
+    stroke(0);
+    noFill();
+    line(0, 0, w, h);
+    line(w, 0, -w, 2 * h);
+    stroke(200,80,7);
+    line(150, 150, 150, 300)
+
+    triangle(10, 10, 10, 290, 100, 290);
+    quad(20,10,110,290,290,290,290,10);
+
+    translate(260, 200);
+    noStroke();
+    fill(204, 101, 192, 150);
+    for (i = 0; i < 10; i++) {
+      randomColor = color(random(255),random(255),random(255));
+      fill(randomColor);
+      ellipse(0, 0, 10, 80);
+      rotate(PI / 8);
+    }
+}
