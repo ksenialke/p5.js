@@ -1,0 +1,60 @@
+function setup() {
+  createCanvas(400, 400);
+  angleMode(DEGREES);
+}
+
+function draw() {
+  background(220);
+  strokeWeight(7);
+  noFill();
+  
+  line(0,0,width,0);
+  line(0,0,0,height);
+  line(0,height,width,height);
+  line(width,0,width,height);
+  
+  translate(200, 200);
+  rotate(-90);
+
+  let hours = hour();
+  let minutes = minute();
+  let seconds = second();
+
+  stroke(250, 150, 255);
+  let secs = map(seconds, 0, 60, 0, 360);
+  arc(0, 0, 300, 300, 0, secs);
+
+  push();
+  rotate(secs);
+  stroke(255);
+  line(0, 0, 120, 0);
+  pop();
+
+  stroke(0, 200, 255);
+  let mins = map(minutes, 0, 60, 0, 360);
+  arc(0, 0, 320, 320, 0, mins);
+
+  push();
+  rotate(mins);
+  stroke(255);
+  line(0, 0, 100, 0);
+  pop();
+
+  stroke(40, 10, 25);
+  let hrs = map(hours % 12, 0, 12, 0, 360);
+  arc(0, 0, 340, 340, 0, hrs);
+
+  push();
+  rotate(hrs);
+  stroke(255);
+  line(0, 0, 80, 0);
+  pop();
+
+  let info = `${hours}:${minutes}:${seconds}`
+	textAlign(CENTER);
+  textSize(25);
+  strokeWeight(1);
+  textStyle(NORMAL);
+  rotate(90)
+	text(info, width/2-55, height/2-10);
+}
