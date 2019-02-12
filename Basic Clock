@@ -51,10 +51,10 @@ function draw() {
   pop();
 
   let info = `${hours}:${minutes}:${seconds}`
-	textAlign(CENTER);
+  textAlign(CENTER);
   textSize(25);
   strokeWeight(1);
   textStyle(NORMAL);
   rotate(90)
-	text(info, width/2-55, height/2-10);
+  text(info, width/2-55, height/2-10);
 }
