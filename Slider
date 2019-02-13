@@ -1,0 +1,42 @@
+var slider;
+
+function setup() {
+  createCanvas(900, 450);
+  colorMode(HSB, 255);  
+  slider = createSlider(0, 4, 0);
+  slider.position(135, 350);
+}
+
+function draw() {
+  background('#f5e6ff	');
+  strokeWeight(2);
+  line(0,0,width,0);
+  line(0,0,0,height);
+  line(0,height,width,height);
+  line(width,0,width,height);
+  
+  var colors = ['#ff0000', '#ffff00', '#ffffff', '#000000', '#0099ff'];
+  //red, yellow, white, black, qing
+
+  fill(colors[slider.value()]);
+  ellipse(200, 200, 200, 250);
+  
+  var names = ['Red', 'Yellow', 'White', 'Black', 'Qing'];
+  var meaning = ['Corresponds to FIRE. Very positive and the most popular in China. Represents joy, fortune and luck. Can be spotted on weddings and red envelopes with money.',
+                 'Refers to EARTH. Often is spotted along with red - they complement each other. Represents power, royalty and prestige.',
+                 'White is a color of death and mourning in China. That\'s why people wear it for funerals. Represents METAL.',
+                 'Black represents WATER. It is a neutral color. Can express knowledge, stability and power.',
+                 'Mix between green and blue. Very optimistic color called the color of spring. It represents WOOD and symbolises immortality and advancement.'];
+  
+  // noFill();
+  // rect(400,100,400,300,80);
+  fill(0)
+   .strokeWeight(0)
+   .textSize(50);
+  textFont('fantasy');
+  text(`ıllıllı ${names[slider.value()]} ıllıllı`, 410, 110, 400, 300);
+  fill(0)
+   .textSize(25);
+  text(meaning[slider.value()],410, 180, 400, 300);
+  
+}
