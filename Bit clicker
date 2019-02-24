@@ -1,8 +1,8 @@
 var bits = [];
+var id = [];
 
 function setup() {
   createCanvas(360, 200);
-  
   for (var i = 0; i < 8; i++) {
   	var x = 40 + 40 * i;
     var y = 40;
@@ -20,8 +20,12 @@ function draw() {
   background(225);
   for(var i = 0; i < bits.length; i++){
   	bits[i].display();
+    bits[i].numr(); 
   }
 }
+
+
+
 
 function Bit(x,y){
 	this.x = x;
@@ -38,7 +42,7 @@ function Bit(x,y){
   
   this.clicked = () => {
     var d = dist(mouseX, mouseY, this.x, this.y);
-    if (d < this.r/2 ) {   
+    if (d < this.r/2 ) { 
       if (this.isClicked){
   			this.color = color(255)
       }
@@ -46,7 +50,16 @@ function Bit(x,y){
       	this.color = color(0)
       }
       this.isClicked = !this.isClicked
-    }
-      
+    } 
   } 
+  this.numr = () => {
+    fill(0, 102, 153);
+    textSize(30);
+    var s = 0;
+    text(s, 50, 150)
+  	if(this.isClicked){
+    	s = 2;
+    	text(2, 50, 150)
+    }
+  }
 }
