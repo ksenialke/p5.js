@@ -1,5 +1,6 @@
 let img;
-var coords;
+var recordDistance;
+var best;
 var shops = [{x:284,y:109},
              {x:46,y:99},
              {x:137,y:278},
@@ -11,7 +12,7 @@ var shops = [{x:284,y:109},
              {x:628,y:567},
              {x:749,y:344},
              {x:763,y:431},
-             {x:284,y:109},];
+             {x:284,y:109}];
 var totalShops = shops.length;
 
 function preload() {
@@ -24,6 +25,9 @@ function setup() {
   	var vect = createVector(shops[i].x,shops[i].y);
     shops[i] = vect;
   }
+  var d = calculateDistance(shops);
+  recordDistance = d;
+  best = shops.slice();
 }
 
 function draw() {
@@ -35,12 +39,47 @@ function draw() {
   }
   
   stroke(0);
-  strokeWeight(2);
+  strokeWeight(1);
   noFill();
   beginShape();
-  for(var i = 0; i < totalShops; i++){
-  	vertex(shops[i].x, shops[i].y);
+  for(var j = 0; j < totalShops; j++){
+  	vertex(shops[j].x, shops[j].y);
   }
   endShape();
+  
+  stroke(255,0,255);
+  strokeWeight(4);
+  noFill();
+  beginShape();
+  for(var j = 0; j < totalShops; j++){
+  	vertex(best[j].x, best[j].y);
+  }
+  endShape();
+  
+  var r1 = floor(random(totalShops));
+  var r2 = floor(random(totalShops));
+  
+  swap(shops,r1,r2)
+  
+  var d = calculateDistance(shops);
+  if ( d < recordDistance ) {
+    recordDistance = d;
+  	best = shops.slice();
+  }
+}
+
+function swap(a, i, j) {
+	var temp = a[i];
+  a[i] = a[j];
+  a[j] = temp;
+}
+
+function calculateDistance(points){
+	var sum = 0;
+  for (var i = 0; i < points.length-1; i++){
+  	var d = dist(points[i].x,points[i].y,points[i+1].x,points[i+1].y);
+  	sum += d;
+  }
+  return sum;
 }
 
