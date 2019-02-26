@@ -1,0 +1,46 @@
+let img;
+var coords;
+var shops = [{x:284,y:109},
+             {x:46,y:99},
+             {x:137,y:278},
+             {x:212,y:335},
+             {x:390,y:232},
+             {x:479,y:545},
+             {x:497,y:72},
+             {x:621,y:453},
+             {x:628,y:567},
+             {x:749,y:344},
+             {x:763,y:431},
+             {x:284,y:109},];
+var totalShops = shops.length;
+
+function preload() {
+	img = loadImage('zabki.jpg');
+}
+
+function setup() {
+  createCanvas(img.width, img.height);
+  for(var i = 0; i < totalShops; i++){
+  	var vect = createVector(shops[i].x,shops[i].y);
+    shops[i] = vect;
+  }
+}
+
+function draw() {
+  background(220);
+  stroke(0);
+  image(img, 0, 0);
+  for(var i = 0; i < totalShops; i++){
+  	ellipse(shops[i].x, shops[i].y,10,10);
+  }
+  
+  stroke(0);
+  strokeWeight(2);
+  noFill();
+  beginShape();
+  for(var i = 0; i < totalShops; i++){
+  	vertex(shops[i].x, shops[i].y);
+  }
+  endShape();
+}
+
