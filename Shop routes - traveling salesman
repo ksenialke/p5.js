@@ -1,8 +1,10 @@
 let img;
 var recordDistance;
 var best;
-var shops = [{x:284,y:109},
-             {x:46,y:99},
+var totalRoutes; 
+var order = [];
+var count = 0;
+var shops = [{x:46,y:99},
              {x:137,y:278},
              {x:212,y:335},
              {x:390,y:232},
@@ -11,8 +13,7 @@ var shops = [{x:284,y:109},
              {x:621,y:453},
              {x:628,y:567},
              {x:749,y:344},
-             {x:763,y:431},
-             {x:284,y:109}];
+             {x:763,y:431}];
 var totalShops = shops.length;
 
 function preload() {
@@ -24,10 +25,11 @@ function setup() {
   for(var i = 0; i < totalShops; i++){
   	var vect = createVector(shops[i].x,shops[i].y);
     shops[i] = vect;
+    order[i] = i;
   }
-  var d = calculateDistance(shops);
+  var d = calculateDistance(shops, order);
   recordDistance = d;
-  best = shops.slice();
+  best = order.slice();
 }
 
 function draw() {
@@ -42,30 +44,38 @@ function draw() {
   strokeWeight(1);
   noFill();
   beginShape();
-  for(var j = 0; j < totalShops; j++){
-  	vertex(shops[j].x, shops[j].y);
+  for(var i = 0; i < order.length; i++){
+    var shopN = order[i];
+  	vertex(shops[shopN].x, shops[shopN].y);
   }
   endShape();
   
-  stroke(255,0,255);
+  stroke(0,100,0);
   strokeWeight(4);
   noFill();
   beginShape();
-  for(var j = 0; j < totalShops; j++){
-  	vertex(best[j].x, best[j].y);
+  for(var i = 0; i < order.length; i++){
+    var shopN = best[i];
+  	vertex(shops[shopN].x, shops[shopN].y);
   }
   endShape();
   
-  var r1 = floor(random(totalShops));
-  var r2 = floor(random(totalShops));
-  
-  swap(shops,r1,r2)
-  
-  var d = calculateDistance(shops);
+  var d = calculateDistance(shops, order);
   if ( d < recordDistance ) {
     recordDistance = d;
-  	best = shops.slice();
+  	best = order.slice();
   }
+  
+  totalRoutes = factorial(totalShops);
+  
+  var percent = 100 * (count/totalRoutes);
+	textSize(25);
+  strokeWeight(1);
+  fill(0,100,0);
+  text(nf(percent,0,2) + '% completed',20,height - 100);
+  text(pixelsToKm(recordDistance) + 'km', 20, height - 50);
+  
+  next();
 }
 
 function swap(a, i, j) {
@@ -74,12 +84,56 @@ function swap(a, i, j) {
   a[j] = temp;
 }
 
-function calculateDistance(points){
+function calculateDistance(points, order){
 	var sum = 0;
-  for (var i = 0; i < points.length-1; i++){
-  	var d = dist(points[i].x,points[i].y,points[i+1].x,points[i+1].y);
+  for (var i = 0; i < order.length-1; i++){
+    var shopA = points[order[i]];
+    var shopB = points[order[i+1]];
+  	var d = dist(shopA.x,shopA.y,shopB.x,shopB.y);
   	sum += d;
   }
   return sum;
+}
+
+function next() {  
+	var largestI = -1;
+  for(var i = 0; i< order. length-1; i++){
+  	if(order[i] < order[i+1]){
+    	largestI = i;
+    }
+  }
+  
+  if (largestI == -1) {
+  	noLoop();
+    console.log('finished');
+  	console.log(pixelsToKm(recordDistance) + 'km')
+
+  }
+  var largestJ = -1;
+  for(var j = 0; j < order.length; j++){
+    if(order[largestI] < order[j]){
+    	largestJ = j;
+    }
+  }
+  swap(order, largestI, largestJ);
+  
+  var endArray = order.splice(largestI + 1);
+	endArray.reverse();
+  order = order.concat(endArray);
+  
+  count++;
+}
+
+function factorial(num) {
+	if(num == 1){
+  	return 1;
+  }else{
+  	return num * factorial(num-1);
+  }
+}
+
+function pixelsToKm(distance) {
+	var distanceInKm = (2.5 * distance) / 1000;
+  return nf(distanceInKm,0,2);
 }
 
