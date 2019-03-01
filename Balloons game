@@ -1,0 +1,74 @@
+var balloon = []; //images
+var baloons = []; //actual balons
+// var images = [];
+
+function preload() {
+	balloon[0] = loadImage('balloon0.png');
+	balloon[1] = loadImage('balloon1.png');
+	balloon[2] = loadImage('balloon2.png');
+}
+
+//   for(var i = 0; i < 3; i++){
+//   	balloon[i] = loadImage('balloon'+i+'.png');
+//   }
+
+function setup() {
+  createCanvas(800, 600);
+  for (var i = 0; i < 10; i++) {
+  	var x = random(20,width-50);
+    var y = 400;
+  	var r = floor(random(0, balloon.length));
+    baloons.push(new Baloon(x,y,balloon[r]));
+  }
+}
+
+var Baloon = function(x,y,img) {
+	this.x = x;
+  this.y = y;
+  this.img = img;
+  
+  this.display = function() {
+  	imageMode(CENTER);
+    image(this.img, this.x, this.y, img.width/2, img.height/2);
+  }
+  this.move = function() {
+  	this.x = this.x + random(-1,1);
+  	this.y = this.y + random(-10,7);
+  }
+  this.fly = function() {
+  	this.x = this.x + random(-5,5);
+		this.y--;    
+  }
+  this.clicked = function() {
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if( d < this.y){
+      baloons.splice(i,1)
+       }
+  }
+}
+
+function draw() {
+  background(251, 255, 198);
+  var title = 'Crazy balloon game';
+  textSize(64)
+  fill(0);
+  text(title,120,50);
+  for (var i = 0; i < 10; i++) {
+    baloons[i].display();
+    baloons[i].move();
+    baloons[i].fly();
+    // baloons[i].clicked();
+  }
+}
+
+function mousePressed() {
+  console.log(baloons.length);
+	for(var i = 0; i<baloons.length; i++){
+  	// baloons[i].clicked();
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if( d < this.y){
+      baloons.splice(i,1)
+       }
+    
+  }
+}
