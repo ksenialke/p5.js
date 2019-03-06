@@ -1,9 +1,17 @@
 var snake;
 var scl = 10;
 var food;
+var yum;
+var gameover;
+var score = 0;
+
+function preload() {
+	yum = loadSound('yum.mp3');
+  gameover = loadSound('gameover.mp3');
+}
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(200, 200);
   snake = new Snake();
   frameRate(10);
   pickLocation();
@@ -18,7 +26,10 @@ function pickLocation() {
 }
 
 function draw() {
+  score = snake.tail.length;
   background(50);
+  text(`Score: ${score}`, width-50, 20)
+  
   snake.death();
   snake.update();
   snake.show();
@@ -59,6 +70,7 @@ function Snake() {
     if(this.total === this.tail.length){
       for (var i = 0; i < this.total - 1; i++){
         this.tail[i] = this.tail[i+1];
+        
       }
     }
     this.tail[this.total-1] = createVector(this.x, this.y);
@@ -70,7 +82,10 @@ function Snake() {
   }
 	
   this.show = function() {
-    fill(255);
+    var rr = random(0,255);
+    var rg = random(0,255);
+    var rb = random(0,255);
+    fill(rr,rg,rb);
     for(var i = 0; i < this.tail.length; i++) {
     	rect(this.tail[i].x,this.tail[i].y,scl,scl);
     }
@@ -86,6 +101,7 @@ function Snake() {
   	var d = dist(this.x, this.y, pos.x, pos.y);
     if(d < 1){
     	this.total++;
+    	yum.play();
       return true;
     }else{
   	return false;}
@@ -96,6 +112,7 @@ function Snake() {
       var pos = this.tail[i];
       var d = dist(this.x, this.y, pos.x, pos.y);
       if(d<1){
+        gameover.play();
       	this.total = 0;
         this.tail = [];
       }
